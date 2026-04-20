@@ -1,8 +1,6 @@
-package com.example.scheduledevelop.dto;
+package com.example.scheduledevelop.schedule.dto;
 
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 public class ScheduleSaveRequest {
