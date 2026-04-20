@@ -5,7 +5,6 @@ import com.example.scheduledevelop.user.dto.UserCreateResponse;
 import com.example.scheduledevelop.user.dto.UserGetResponse;
 import com.example.scheduledevelop.user.dto.UserPutRequest;
 import com.example.scheduledevelop.user.service.UserService;
-import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
