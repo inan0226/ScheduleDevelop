@@ -4,7 +4,9 @@ import com.example.scheduledevelop.user.dto.UserCreateRequest;
 import com.example.scheduledevelop.user.dto.UserCreateResponse;
 import com.example.scheduledevelop.user.dto.UserGetResponse;
 import com.example.scheduledevelop.user.dto.UserPutRequest;
+import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request, HttpSession session) {
+        User user = userService.login(request);
+        SessionUser sessionUser = new SessionUser(user);
+        session.setAttribute("loginUser", sessionUser);
+
+        LoginResponse response = new LoginResponse(user.getId(), user.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     // 유저 생성
     @PostMapping("/users")

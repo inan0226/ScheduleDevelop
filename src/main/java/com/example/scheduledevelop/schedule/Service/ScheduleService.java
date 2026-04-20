@@ -6,6 +6,7 @@ import com.example.scheduledevelop.schedule.dto.ScheduleResponse;
 import com.example.scheduledevelop.schedule.dto.ScheduleSaveRequest;
 import com.example.scheduledevelop.schedule.dto.ScheduleSaveResponse;
 import com.example.scheduledevelop.schedule.dto.ScheduleUpdateRequest;
+import com.example.scheduledevelop.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class ScheduleService {
     //  일정 생성
     @Transactional
     public ScheduleSaveResponse save(ScheduleSaveRequest request) {
-        Schedule schedule = new Schedule(request.getTitle(), request.getContent(), request.getAuthorName(), request.getPassword());
+        Schedule schedule = new Schedule(request.getTitle(), request.getContent(), request.getAuthorName(), request.getPassword(),User user);
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return new ScheduleSaveResponse(
                 savedSchedule.getId(),

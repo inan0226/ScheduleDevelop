@@ -6,8 +6,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.logging.Level;
-
 @Getter
 @Entity
 @Table(name = ("/users"))
@@ -19,11 +17,13 @@ public class User extends BaseEntity {
     private Long id;
     private String userName;
     private String email;
+    private String password;
 
-    public User(String userName, String email) {
+    public User(String userName, String email,String password) {
 
         this.userName = userName;
         this.email = email;
+        this.password = password;
     }
 
     public void updateUser(String userName, String email) {
