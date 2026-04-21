@@ -1,9 +1,6 @@
 package com.example.scheduledevelop.user.service;
 
-import com.example.scheduledevelop.user.dto.UserCreateRequest;
-import com.example.scheduledevelop.user.dto.UserCreateResponse;
-import com.example.scheduledevelop.user.dto.UserGetResponse;
-import com.example.scheduledevelop.user.dto.UserPutRequest;
+import com.example.scheduledevelop.user.dto.*;
 import com.example.scheduledevelop.user.entity.User;
 import com.example.scheduledevelop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +17,7 @@ public class UserService {
 
     @Transactional
     public UserCreateResponse create(UserCreateRequest request) {
-        User user = new User(request.getUserName(), request.getEmail(),request.getPassword());
+        User user = new User(request.getUserName(), request.getEmail(), request.getPassword());
         User saveUser = userRepository.save(user);
         return new UserCreateResponse(
                 saveUser.getId(),
@@ -85,5 +82,15 @@ public class UserService {
         );
         userRepository.deleteById(id);
 
+    }
+
+    @Transactional
+    public User login(UserLoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail());
+        if (user == null)
+            throw new IllegalStateException("정보가 맞지 않습니다.");
+        if (!user.getPassword().equals(request.getPassword()))
+            throw new IllegalStateException("비밀번호의 정보가 맞지 않습니다.");
+        return user;
     }
 }
