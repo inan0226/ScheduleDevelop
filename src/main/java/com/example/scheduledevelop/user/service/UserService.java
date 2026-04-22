@@ -28,6 +28,12 @@ public class UserService {
         );
 
     }
+    @Transactional
+    public User scheduleUser(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("유저가 존재하지 않습니다.")
+        );
+    }
 
     @Transactional
     public List<UserGetResponse> getAll() {
@@ -48,9 +54,7 @@ public class UserService {
 
     @Transactional
     public UserGetResponse getOneUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("유저가 존재하지 않습니다.")
-        );
+        User user = scheduleUser(id);
         return new UserGetResponse(
                 user.getId(),
                 user.getUserName(),

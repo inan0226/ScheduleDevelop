@@ -6,29 +6,31 @@ import com.example.scheduledevelop.schedule.dto.ScheduleResponse;
 import com.example.scheduledevelop.schedule.dto.ScheduleSaveRequest;
 import com.example.scheduledevelop.schedule.dto.ScheduleSaveResponse;
 import com.example.scheduledevelop.schedule.dto.ScheduleUpdateRequest;
+import com.example.scheduledevelop.user.entity.User;
+import com.example.scheduledevelop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserService userService;
 
     //  일정 생성
     @Transactional
-    public ScheduleSaveResponse save(ScheduleSaveRequest request) {
-        Schedule schedule = new Schedule(request.getTitle(), request.getContent(), request.getAuthorName(), request.getPassword(),);
+    public ScheduleSaveResponse save(ScheduleSaveRequest request, Long id) {
+        User user = userService.scheduleUser(id);
+        Schedule schedule = new Schedule(request.getTitle(), request.getContent(), request.getPassword(), user);
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return new ScheduleSaveResponse(
                 savedSchedule.getId(),
                 savedSchedule.getTitle(),
                 savedSchedule.getContent(),
-                savedSchedule.getAuthorName(),
                 savedSchedule.getCreateAt(),
                 savedSchedule.getModifiedAt()
         );
@@ -39,10 +41,10 @@ public class ScheduleService {
     public List<ScheduleResponse> findAll() {
         return scheduleRepository.findAll().stream()
                 .map(schedule -> new ScheduleResponse(
-                        schedule.getId(), schedule.getTitle(), schedule.getContent(),
-                        schedule.getAuthorName(), schedule.getCreateAt(), schedule.getModifiedAt()
+                        schedule.getId(), schedule.getTitle(), schedule.getContent()
+                        , schedule.getCreateAt(), schedule.getModifiedAt()
                 ))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     // 단건 조회
@@ -52,7 +54,7 @@ public class ScheduleService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 일정이 없습니다."));
         return new ScheduleResponse(
                 schedule.getId(), schedule.getTitle(), schedule.getContent(),
-                schedule.getAuthorName(), schedule.getCreateAt(), schedule.getModifiedAt()
+                schedule.getCreateAt(), schedule.getModifiedAt()
         );
     }
 
@@ -70,7 +72,7 @@ public class ScheduleService {
 
         return new ScheduleResponse(
                 schedule.getId(), schedule.getTitle(), schedule.getContent(),
-                schedule.getAuthorName(), schedule.getCreateAt(), schedule.getModifiedAt()
+                schedule.getCreateAt(), schedule.getModifiedAt()
         );
     }
 
