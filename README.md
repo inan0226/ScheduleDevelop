@@ -374,5 +374,5 @@
 
 - 데이터 없음 (성공적으로 삭제됨)
 
-img width="956" height="537" alt="Image" src="https://github.com/user-attachments/assets/46e01236-c4ac-4bcd-9921-4a0850baed6c" />
+<img width="956" height="537" alt="Image" src="https://github.com/user-attachments/assets/0061e2cf-7bea-44f0-9d35-654282f0d2e9" />
 
